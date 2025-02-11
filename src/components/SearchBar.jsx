@@ -69,7 +69,7 @@ export default function SearchBar({ onSelect }) {
   }, [query]);
 
   return (
-    <div className="relative w-full max-w-md mx-auto" ref={dropdownRef}>
+    <div className="relative w-full max-w-md mx-auto mb-4" ref={dropdownRef}>
       {/* Search Input */}
       <input
         type="text"
@@ -93,7 +93,7 @@ export default function SearchBar({ onSelect }) {
                 onSelect(item);
               }}
             >
-              {item.id}
+              {item.name}
             </li>
           ))}
         </ul>

@@ -5,11 +5,19 @@
 ✅ Remove button
 */
 
-export default function Portfolio({ myCoins }) {
+export default function Portfolio({ items }) {
+  console.log(items);
+
   return (
     <>
-      <h3>Balances (myCoins length)</h3>
-      <table>
+      <h3>Balances ({items.length})</h3>
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}></li>
+        ))}
+      </ul>
+
+      {/*       <table>
         <thead>
           <tr>
             <th>Symbol</th>
@@ -20,7 +28,7 @@ export default function Portfolio({ myCoins }) {
           </tr>
         </thead>
         <tbody></tbody>
-      </table>
+      </table> */}
     </>
   );
 }

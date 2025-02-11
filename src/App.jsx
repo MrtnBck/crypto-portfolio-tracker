@@ -1,11 +1,13 @@
+import { useEffect, useState } from "react";
+
 import axios from "axios";
 
 import Portfolio from "./components/Portfolio";
 import SearchBar from "./components/SearchBar";
+import FormCoin from "./components/FormCoin";
 
-const coinGeckoBaseUrl = "https://api.coingecko.com/api/v3";
-
-const coinGeckoRequest = async (endpoint, params) => {
+/* const coinGeckoRequest = async (endpoint, params) => {
+  const coinGeckoBaseUrl = "https://api.coingecko.com/api/v3";
   const options = {
     method: "GET",
     url: coinGeckoBaseUrl + endpoint,
@@ -19,32 +21,39 @@ const coinGeckoRequest = async (endpoint, params) => {
   } catch (error) {
     console.error(error);
   }
-};
-
-function addCoinToPortfolio(coin) {
-  console.log(coin);
-}
+}; */
 
 function App() {
+  const [portfolio, setPortfolio] = useState([]);
+  const [selectedCoin, setSelectedCoin] = useState(null);
+
+  function addCoinToPortfolioHandler(coin) {
+    setPortfolio((existingPortfolio) => {
+      const updatedPortfolio = [...existingPortfolio, coin];
+      localStorage.setItem("portfolio", JSON.stringify(updatedPortfolio));
+      return updatedPortfolio;
+    });
+  }
+
+  function onCoinSelect(coin) {
+    setSelectedCoin(coin);
+  }
+
+  useEffect(() => {
+    const storedPortfolio = JSON.parse(localStorage.getItem("portfolio"));
+
+    storedPortfolio && setPortfolio(storedPortfolio);
+  }, []);
+
   return (
     <>
       <header className="bg-gray-800 text-white p-4 shadow-md flex justify-between items-center">
         Crypto Portfolio Tracker
       </header>
       <main className="w-3/4 mx-auto mt-8">
-        <SearchBar onSelect={addCoinToPortfolio} />
-        <div className="flex flex-col max-w-sm mt-2 ">
-          <button className="bg-amber-300 px-3 py-1 rounded-xl mb-2" onClick={() => coinGeckoRequest("/coins/list")}>
-            Coin List
-          </button>
-          <button
-            className="bg-amber-300 px-3 py-1 rounded-xl mb-2"
-            onClick={() => coinGeckoRequest("/search", { query: "sol" })}
-          >
-            Search for Bitcoin
-          </button>
-        </div>
-        <Portfolio />
+        <SearchBar onSelect={onCoinSelect} />
+        {selectedCoin && <FormCoin coin={selectedCoin} onAddMyCoin={addCoinToPortfolioHandler} />}
+        <Portfolio items={portfolio} />
       </main>
     </>
   );

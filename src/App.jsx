@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import Portfolio from "./components/Portfolio";
+import SearchBar from "./components/SearchBar";
 
 const coinGeckoBaseUrl = "https://api.coingecko.com/api/v3";
 
@@ -20,6 +21,10 @@ const coinGeckoRequest = async (endpoint, params) => {
   }
 };
 
+function addCoinToPortfolio(coin) {
+  console.log(coin);
+}
+
 function App() {
   return (
     <>
@@ -27,11 +32,7 @@ function App() {
         Crypto Portfolio Tracker
       </header>
       <main className="w-3/4 mx-auto mt-8">
-        <input
-          type="text"
-          className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={(e) => coinGeckoRequest("/coins/list", { query: e.target.value })}
-        />
+        <SearchBar onSelect={addCoinToPortfolio} />
         <div className="flex flex-col max-w-sm mt-2 ">
           <button className="bg-amber-300 px-3 py-1 rounded-xl mb-2" onClick={() => coinGeckoRequest("/coins/list")}>
             Coin List

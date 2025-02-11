@@ -6,8 +6,6 @@
 */
 
 export default function Portfolio({ myCoins }) {
-  const myCoins = [];
-
   return (
     <>
       <h3>Balances (myCoins length)</h3>

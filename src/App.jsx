@@ -28,6 +28,7 @@ function App() {
   const [selectedCoin, setSelectedCoin] = useState(null);
 
   function addCoinToPortfolioHandler(coin) {
+    setSelectedCoin(null);
     setPortfolio((existingPortfolio) => {
       const updatedPortfolio = [...existingPortfolio, coin];
       localStorage.setItem("portfolio", JSON.stringify(updatedPortfolio));

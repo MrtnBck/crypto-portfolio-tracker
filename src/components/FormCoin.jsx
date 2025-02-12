@@ -16,9 +16,6 @@ export default function FormCoin({ coin, onAddMyCoin }) {
 
   function onSubmitHandler(event) {
     event.preventDefault();
-
-    console.log(event);
-
     const coinData = { ...coin, myAsset: { amount, avaragePrice } };
 
     onAddMyCoin(coinData);

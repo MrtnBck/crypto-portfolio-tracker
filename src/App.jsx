@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
-import axios from "axios";
-
 import Portfolio from "./components/Portfolio";
 import SearchBar from "./components/SearchBar";
 import FormCoin from "./components/FormCoin";
+
+import { PortfolioContextProvider } from "./store/PortfolioContext"; // New import
 
 /* const coinGeckoRequest = async (endpoint, params) => {
   const coinGeckoBaseUrl = "https://api.coingecko.com/api/v3";
@@ -55,7 +55,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <PortfolioContextProvider>
       <header className="bg-gray-800 text-white p-4 shadow-md flex justify-between items-center">
         Crypto Portfolio Tracker
       </header>
@@ -64,7 +64,7 @@ function App() {
         {selectedCoin && <FormCoin coin={selectedCoin} onAddMyCoin={addCoinToPortfolioHandler} />}
         <Portfolio items={portfolio} onRemove={coinRemoveHandler} />
       </main>
-    </>
+    </PortfolioContextProvider>
   );
 }
 

@@ -40,6 +40,14 @@ function App() {
     setSelectedCoin(coin);
   }
 
+  function coinRemoveHandler(coinId) {
+    setPortfolio((existingPortfolio) => {
+      const updatedPortfolio = existingPortfolio.filter((coin) => coin.id !== coinId);
+      localStorage.setItem("portfolio", JSON.stringify(updatedPortfolio));
+      return updatedPortfolio;
+    });
+  }
+
   useEffect(() => {
     const storedPortfolio = JSON.parse(localStorage.getItem("portfolio"));
 
@@ -54,7 +62,7 @@ function App() {
       <main className="w-3/4 mx-auto mt-8">
         <SearchBar onSelect={onCoinSelect} />
         {selectedCoin && <FormCoin coin={selectedCoin} onAddMyCoin={addCoinToPortfolioHandler} />}
-        <Portfolio items={portfolio} />
+        <Portfolio items={portfolio} onRemove={coinRemoveHandler} />
       </main>
     </>
   );

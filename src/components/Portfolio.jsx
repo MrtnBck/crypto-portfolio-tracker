@@ -1,12 +1,16 @@
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
 
-export default function Portfolio({ items }) {
-  const [coinsMarketData, setCoinsMarketData] = useState([]);
+import IconClose from "/public/icons/close.svg";
 
-  const itemsSorted = items.sort((a, b) => {
-    return a.market_cap_rank - b.market_cap_rank;
-  });
+export default function Portfolio({ items, onRemove }) {
+  const [coinsMarketData, setCoinsMarketData] = useState([]);
+  let itemsSorted = [];
+  if (items) {
+    itemsSorted = items.sort((a, b) => {
+      return a.market_cap_rank - b.market_cap_rank;
+    });
+  }
 
   const fetchCoinsMarketData = useCallback(async () => {
     const coinGeckoBaseUrl = "https://api.coingecko.com/api/v3";
@@ -84,6 +88,11 @@ export default function Portfolio({ items }) {
     return `${allocation.toFixed(2)}%`;
   }
 
+  function removeItem(coinId) {
+    setCoinsMarketData(coinsMarketData.filter((coin) => coin.id !== coinId));
+    onRemove(coinId);
+  }
+
   return (
     <>
       <h3>Balances ({items.length})</h3>
@@ -98,22 +107,21 @@ export default function Portfolio({ items }) {
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Value</th>
+            <th className="px-6 py-3"></th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {itemsSorted.map((item) => (
-            <tr key={item.id}>
+            <tr key={item.id} className="group">
               {/* Ranks */}
               <td className="px-6 py-4 whitespace-nowrap flex items-center">
                 <p>{item.market_cap_rank}</p>
               </td>
               {/* Coin */}
-              <td className="px-6 py-4 whitespace-nowrap ">
-                <img src={item.thumb} alt={item.id} className="mr-2 w-6 h-6 rounded-full" />
-                <div>
-                  <div className="text-sm font-medium text-gray-900">{item.name}</div>
-                  <div className="text-sm text-gray-500">{item.symbol.toUpperCase()}</div>
-                </div>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <img src={item.thumb} alt={item.id} className="inline mr-2 w-6 h-6 rounded-full" />
+                <p className="inline text-sm font-medium text-gray-900">{item.name}</p>
+                <p className="inline text-sm text-gray-500"> ({item.symbol.toUpperCase()})</p>
               </td>
               {/* Price */}
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formattedPrice(item.id)}</td>
@@ -123,6 +131,16 @@ export default function Portfolio({ items }) {
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.myAsset.amount}</td>
               {/* Value */}
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{calculateValue(item.id)}</td>
+              <td className="w-[30px] px-6 py-4 whitespace-nowrap text-sm text-gray-900 flex justify-end">
+                <div className="">
+                  <button
+                    className="hidden group-hover:flex bg-red-600 w-[25px] h-[25px] text-white rounded cursor-pointer  items-center justify-center"
+                    onClick={() => removeItem(item.id)}
+                  >
+                    <img src={IconClose} alt="remove" className="w-[15px] h-[15px]" />
+                  </button>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>

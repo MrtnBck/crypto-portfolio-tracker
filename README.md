@@ -8,10 +8,11 @@
 
 - add React ContextAPI to manage the state of the app
 - create a custom hook to fetch data from the API
+- toast notifications for user feedback
 
 ### Portfolio
 
-- remove coins from the portfolio
+- DONE: button: remove coins from the portfolio
 - edit the amount and average price of coins in the portfolio
 - calculate the total value of the portfolio
 - sort the portfolio by different criteria (rank, price, allocation)

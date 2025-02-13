@@ -38,6 +38,12 @@ export default function SearchBar({ onSelect }) {
 
       try {
         const response = await axios.request(options);
+
+        if (response.status !== 200) {
+          console.log("Error fetching data");
+          return [];
+        }
+
         return response.data;
       } catch (error) {
         console.error(error);

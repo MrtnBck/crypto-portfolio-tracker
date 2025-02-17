@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
 
-import Portfolio from "./components/Portfolio";
 import SearchBar from "./components/SearchBar";
 import FormCoin from "./components/FormCoin";
 
 import { PortfolioContextProvider } from "./store/PortfolioContext"; // New import
+
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import RootLayout from "./components/RootLayout";
+
+import Home from "./pages/Home";
+import AddCoin from "./pages/AddCoin";
+import Portfolio from "./pages/Portfolio";
 
 /* const coinGeckoRequest = async (endpoint, params) => {
   const coinGeckoBaseUrl = "https://api.coingecko.com/api/v3";
@@ -22,6 +29,18 @@ import { PortfolioContextProvider } from "./store/PortfolioContext"; // New impo
     console.error(error);
   }
 }; */
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "/add", element: <AddCoin /> },
+      { path: "/portfolio", element: <Portfolio /> },
+    ],
+  },
+]);
 
 function App() {
   const [portfolio, setPortfolio] = useState([]);
@@ -54,18 +73,20 @@ function App() {
     storedPortfolio && setPortfolio(storedPortfolio);
   }, []);
 
-  return (
-    <PortfolioContextProvider>
-      <header className="bg-gray-800 text-white p-4 shadow-md flex justify-between items-center">
-        Crypto Portfolio Tracker
-      </header>
-      <main className="w-3/4 mx-auto mt-8">
-        <SearchBar onSelect={onCoinSelect} />
-        {selectedCoin && <FormCoin coin={selectedCoin} onAddMyCoin={addCoinToPortfolioHandler} />}
-        <Portfolio items={portfolio} onRemove={coinRemoveHandler} />
-      </main>
-    </PortfolioContextProvider>
-  );
+  return <RouterProvider router={router} />;
+
+  // return (
+  //   <PortfolioContextProvider>
+  //     <header className="bg-gray-800 text-white p-4 shadow-md flex justify-between items-center">
+  //       Crypto Portfolio Tracker
+  //     </header>
+  //     <main className="w-3/4 mx-auto mt-8">
+  //       <SearchBar onSelect={onCoinSelect} />
+  //       {selectedCoin && <FormCoin coin={selectedCoin} onAddMyCoin={addCoinToPortfolioHandler} />}
+  //       <Portfolio items={portfolio} onRemove={coinRemoveHandler} />
+  //     </main>
+  //   </PortfolioContextProvider>
+  // );
 }
 
 export default App;

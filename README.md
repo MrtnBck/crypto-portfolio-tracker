@@ -9,6 +9,7 @@
 - add React ContextAPI to manage the state of the app
 - create a custom hook to fetch data from the API
 - toast notifications for user feedback
+- Add react-router and create a separate page for the portfolio, create portfolio
 
 ### Portfolio
 

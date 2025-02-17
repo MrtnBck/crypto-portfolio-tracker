@@ -1,16 +1,11 @@
-import { useEffect, useState } from "react";
-
-import SearchBar from "./components/SearchBar";
-import FormCoin from "./components/FormCoin";
-
-import { PortfolioContextProvider } from "./store/PortfolioContext"; // New import
+import { PortfolioContextProvider } from "./store/PortfolioContext";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import RootLayout from "./components/RootLayout";
 
 import Home from "./pages/Home";
-import AddCoin from "./pages/AddCoin";
+import NewCoin from "./pages/NewCoin";
 import Portfolio from "./pages/Portfolio";
 
 /* const coinGeckoRequest = async (endpoint, params) => {
@@ -36,43 +31,20 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "/add", element: <AddCoin /> },
+      { path: "/new", element: <NewCoin /> },
       { path: "/portfolio", element: <Portfolio /> },
     ],
   },
 ]);
 
 function App() {
-  const [portfolio, setPortfolio] = useState([]);
-  const [selectedCoin, setSelectedCoin] = useState(null);
-
-  function addCoinToPortfolioHandler(coin) {
-    setSelectedCoin(null);
-    setPortfolio((existingPortfolio) => {
-      const updatedPortfolio = [...existingPortfolio, coin];
-      localStorage.setItem("portfolio", JSON.stringify(updatedPortfolio));
-      return updatedPortfolio;
-    });
-  }
-
-  function onCoinSelect(coin) {
-    setSelectedCoin(coin);
-  }
-
-  function coinRemoveHandler(coinId) {
+  /*   function coinRemoveHandler(coinId) {
     setPortfolio((existingPortfolio) => {
       const updatedPortfolio = existingPortfolio.filter((coin) => coin.id !== coinId);
       localStorage.setItem("portfolio", JSON.stringify(updatedPortfolio));
       return updatedPortfolio;
     });
-  }
-
-  useEffect(() => {
-    const storedPortfolio = JSON.parse(localStorage.getItem("portfolio"));
-
-    storedPortfolio && setPortfolio(storedPortfolio);
-  }, []);
-
+  } */
   return (
     <PortfolioContextProvider>
       <RouterProvider router={router} />

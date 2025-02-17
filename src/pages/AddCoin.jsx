@@ -1,3 +1,11 @@
+import SearchBar from "../components/SearchBar";
+//import FormCoin from "../components/FormCoin";
+
 export default function AddCoin() {
-  return <h1>Add Coin Page</h1>;
+  return (
+    <div>
+      <SearchBar />
+      {/* <FormCoin /> */}
+    </div>
+  );
 }

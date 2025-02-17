@@ -1,15 +1,19 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 
 import axios from "axios";
 
 import debounce from "lodash.debounce";
 
-export default function SearchBar({ onSelect }) {
+import PortfolioContext from "../store/PortfolioContext";
+
+export default function SearchBar() {
   const [query, setQuery] = useState("");
   const [filteredItems, setFilteredItems] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
 
   const dropdownRef = useRef(null);
+
+  const portfolioCtx = useContext(PortfolioContext);
 
   //if showDropdown active and user clicks outside of dropdown, close dropdown
   useEffect(() => {
@@ -74,8 +78,13 @@ export default function SearchBar({ onSelect }) {
     };
   }, [query]);
 
+  function onSelectHandler(item) {
+    //TODO: add selected coin to the portfolio (store)
+    portfolioCtx.addAsset(item);
+  }
+
   return (
-    <div className="relative w-full max-w-md mx-auto mb-4" ref={dropdownRef}>
+    <div className="relative w-full max-w-md mx-auto mb-4 mt-4" ref={dropdownRef}>
       {/* Search Input */}
       <input
         type="text"
@@ -96,7 +105,7 @@ export default function SearchBar({ onSelect }) {
               onClick={() => {
                 setQuery("");
                 setShowDropdown(false);
-                onSelect(item);
+                onSelectHandler(item);
               }}
             >
               {item.name}

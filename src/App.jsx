@@ -73,7 +73,11 @@ function App() {
     storedPortfolio && setPortfolio(storedPortfolio);
   }, []);
 
-  return <RouterProvider router={router} />;
+  return (
+    <PortfolioContextProvider>
+      <RouterProvider router={router} />
+    </PortfolioContextProvider>
+  );
 
   // return (
   //   <PortfolioContextProvider>
@@ -85,7 +89,7 @@ function App() {
   //       {selectedCoin && <FormCoin coin={selectedCoin} onAddMyCoin={addCoinToPortfolioHandler} />}
   //       <Portfolio items={portfolio} onRemove={coinRemoveHandler} />
   //     </main>
-  //   </PortfolioContextProvider>
+  //
   // );
 }
 

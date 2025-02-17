@@ -93,6 +93,21 @@ export default function Portfolio({ items, onRemove }) {
     onRemove(coinId);
   }
 
+  function calculateAvarageBuyPrice(coinId) {
+    const avaragePrice = items.find((item) => item.id === coinId).myAsset.avaragePrice;
+
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(avaragePrice);
+  }
+
+  function editItem(coinId) {
+    console.log("Edit item", coinId);
+  }
+
   return (
     <>
       <h3>Balances ({items.length})</h3>
@@ -106,6 +121,7 @@ export default function Portfolio({ items, onRemove }) {
               Allocation
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ABP</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Value</th>
             <th className="px-6 py-3"></th>
           </tr>
@@ -129,12 +145,21 @@ export default function Portfolio({ items, onRemove }) {
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{calculateAllocation(item.id)}</td>
               {/* Amount */}
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.myAsset.amount}</td>
+              {/* ABP */}
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{calculateAvarageBuyPrice(item.id)}</td>
               {/* Value */}
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{calculateValue(item.id)}</td>
               <td className="w-[30px] px-6 py-4 whitespace-nowrap text-sm text-gray-900 flex justify-end">
-                <div className="">
+                <div className="flex items-center justify-end group">
                   <button
-                    className="hidden group-hover:flex bg-red-600 w-[25px] h-[25px] text-white rounded cursor-pointer  items-center justify-center"
+                    className="hidden mr-2 group-hover:flex bg-stone-400 w-[25px] h-[25px] text-white rounded cursor-pointer  items-center justify-center"
+                    onClick={() => editItem(item.id)}
+                  >
+                    <p>Edit</p>
+                  </button>
+
+                  <button
+                    className="hidden group-hover:flex  bg-red-600 w-[25px] h-[25px] text-white rounded cursor-pointer  items-center justify-center"
                     onClick={() => removeItem(item.id)}
                   >
                     <img src={IconClose} alt="remove" className="w-[15px] h-[15px]" />

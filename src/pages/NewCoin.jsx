@@ -6,7 +6,7 @@ import SearchBar from "../components/SearchBar";
 
 import PortfolioContext from "../store/PortfolioContext";
 
-export default function NewCoin({ coin }) {
+export default function NewCoin() {
   const navigate = useNavigate();
 
   const [amount, setAmount] = useState(0);
@@ -15,7 +15,7 @@ export default function NewCoin({ coin }) {
   const [isShowCoinForm, setIsShowCoinForm] = useState(false);
   const [selectedCoin, setSelectedCoin] = useState({});
 
-  const portfolioCtx = useContext(PortfolioContext);
+  const { addAsset } = useContext(PortfolioContext);
 
   function handleAmountChange(event) {
     setAmount(parseFloat(event.target.value));
@@ -32,7 +32,7 @@ export default function NewCoin({ coin }) {
 
   function onSubmitHandler(event) {
     event.preventDefault();
-    portfolioCtx.addAsset({ ...coin, myAsset: { amount, avaragePrice } });
+    addAsset({ ...selectedCoin, myAsset: { amount, avaragePrice } });
     console.log("Asset successfully added to your portfolio.");
     navigate("/portfolio");
   }

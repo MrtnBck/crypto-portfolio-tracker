@@ -7,7 +7,7 @@ export default function MainNavigation() {
         Logo
       </Link>
       <div className="flex">
-        <Link to={"/add"} className="mr-4">
+        <Link to={"/new"} className="mr-4">
           Add Coin
         </Link>
         <Link to={"/portfolio"}>Portfolio</Link>
